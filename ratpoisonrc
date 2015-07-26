@@ -1,0 +1,32 @@
+escape C-a
+#exec /usr/bin/rpws init 2 -k
+bind c exec terminator
+bind semicolon colon
+bind colon exec
+#bind t exec ratpoison -d :0.0 -c "echo `date +'%R - %a %n    %d - %b'`  `cal | tail -n +2 | sed -e 's/^Su/\n\n Su/' -e 's/.*/ & /' -e \"s/\ $(date +%e)\ /\/\"`"
+bind t time
+bind g groups
+bind G gnext
+#bind L exec xautolock -locknow
+bind L exec  xtrlock
+
+
+#start following programs
+
+#exec xautolock -time 5 -locker 'xtrlock'
+#exec xautolock -time 1 -locker 'xlock'
+exec terminator
+#exec google-chrome --http-proxy=""
+exec google-chrome 
+
+exec /bin/bash "$HOME/.xinitrc"
+exec /home/sachin/.dropbox-dist/dropboxd
+
+#to take screenshot
+alias snapshot exec import -window root png:$HOME/xwd-$(date +%s)$$.png
+
+bind B exec ratpoison -c "echo $(cat /proc/acpi/battery/BAT0/state)"
+bind b exec ratpoison -c "echo $(acpi)"
+
+unmanage panel
+set padding 0 0 0 11 
