@@ -36,6 +36,7 @@ Plugin 'marijnh/tern_for_vim'               " Javascript linter which can attach
 Plugin 'rking/ag.vim'                       " frontend for silversearcher
 Plugin 'pangloss/vim-javascript'            " Improved JS indentation and syntax support e.g. html within js
 Plugin 'xolox/vim-session'                  " manage vim sessions
+Plugin 'elzr/vim-json'                      " highlight key value etc.
 
 call vundle#end()               " required
 filetype plugin indent on       " required
@@ -54,6 +55,7 @@ colorscheme solarized           " use this colorscheme
 
 " General settings
 let mapleader=","               " use , as leader instead of \
+filetype indent on              " load flietype specific indent files
 set backspace=indent,eol,start  " for consistent backspace behaviour
 set ruler                       " show current line number, column number etc.
 set number                      " show line number
@@ -67,6 +69,7 @@ set shiftround                  " use multiple of shiftwidth when indenting with
 set showmatch                   " set show matching parenthesis
 set ignorecase                  " ignore case when searching
 set smartcase                   " ignore case if search pattern is all lowercase, case-sensitive otherwise
+set hidden                      " I will take care of my hidden buffers
 set scrolloff=2                 " always display n number of lines below and above cursor
 set cursorline                  " highlight current line
 set history=1000                " remember more commands and search history
@@ -154,3 +157,10 @@ let g:rainbow_active = 1
 
 " gitgutter settings
 let g:gitgutter_enabled = 1
+
+
+" CtrlP settings
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g "'"
