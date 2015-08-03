@@ -116,6 +116,9 @@ export CVSROOT=:ext:sdivekar@10.1.1.8:/var/local/cvs/repository
 export ANDROID_HOME="/home/sachin/projects/android/adt-bundle/sdk/"
 export GRADLE_HOME="/home/sachin/gradle/current"
 
+# for laravel
+export PATH="$PATH:/home/sachin/.composer/vendor/bin/"
+
 # To save history in a seperate file
 export PROMPT_COMMAND="history 1 >> /home/sachin/.my_bash_history"
 
