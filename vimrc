@@ -37,6 +37,13 @@ Plugin 'rking/ag.vim'                       " frontend for silversearcher
 Plugin 'pangloss/vim-javascript'            " Improved JS indentation and syntax support e.g. html within js
 Plugin 'xolox/vim-session'                  " manage vim sessions
 Plugin 'elzr/vim-json'                      " highlight key value etc.
+Plugin 'bronson/vim-trailing-whitespace'    " remove trailing whitespaces (:FixWhitespace)
+Plugin 'tpope/vim-surround'                 " quoting/parantesizing made simple
+Plugin 'SirVer/ultisnips'                   " snippet manager
+Plugin 'honza/vim-snippets'                 " vim snippets
+Plugin 'matthewsimo/angular-vim-snippets'   " angular js snippets
+Plugin 'othree/javascript-libraries-syntax.vim' " javascript libraries syntax
+Plugin 'burnettk/vim-angular'               " AngularJS with vim, jump to controllers services etc.
 
 call vundle#end()               " required
 filetype plugin indent on       " required
@@ -52,7 +59,6 @@ set background=dark             " force vim to use 256 colors
 let g:solarized_termcolors=256  " use solarized 256 fallback
 colorscheme solarized           " use this colorscheme
 
-
 " General settings
 let mapleader=","               " use , as leader instead of \
 filetype indent on              " load flietype specific indent files
@@ -62,7 +68,9 @@ set number                      " show line number
 set showcmd                     " show what you are typing in command mode
 set incsearch                   " to move cursor to matching string while typing the search pattern
 set hlsearch                    " highlight all search pattern matches
-set nowrap                      " don't wrap lines
+set wrap                        " wrap lines
+set textwidth=80
+set colorcolumn=80
 set autoindent                  " autoindent (shortcut is =)
 set copyindent                  " copy the previous indentation on autoindenting / alternative for paste
 set shiftround                  " use multiple of shiftwidth when indenting with '<' and '>'
@@ -82,11 +90,11 @@ cmap w!! w !sudo tee % >/dev/null   " use w!! to use sudo to save file
 nmap <silent> <leader>/ :nohlsearch<CR>    " Tired of clearing highlighted searches by searching for “ladf”
 
 " Refer http://www.alexeyshmalko.com/2014/using-vim-as-c-cpp-ide/
-set exrc " source .vimrc file if it present in working 
+set exrc " source .vimrc file if it present in working
 set secure " since vim will source any local vimrc, must use secure to restrict unsafe commands to run"
 
 " Tabs and spaces
-" Refer http://vimcasts.org/episodes/tabs-and-spaces/ 
+" Refer http://vimcasts.org/episodes/tabs-and-spaces/
 set tabstop=4     " how many columns a tab counts for
 set shiftwidth=4  " how many columns text is indented with the reindent operations (<< and >>)
 set softtabstop=4 " how many columns vim uses when you hit Tab in insert mode
@@ -105,8 +113,8 @@ set listchars=tab:▸\ ,eol:¬
 " Invisible character colors
 " NonText is Newline
 " SpecialKey is Tab
-highlight NonText guifg=#4a4a59 
-highlight SpecialKey guifg=#4a4a59 
+highlight NonText guifg=#4a4a59
+highlight SpecialKey guifg=#4a4a59
 
 " Airline configuration
 let g:airline#extensions#tabline#enabled = 1
@@ -145,7 +153,6 @@ nmap <silent> <leader>b :TagbarToggle<CR>
 " Uncomment to open tagbar automatically whenever possible
 "autocmd BufEnter * nested :call tagbar#autoopen(0)
 
-
 " ----- airblade/vim-gitgutter settings -----
 " Required after having changed the colorscheme
 hi clear SignColumn
@@ -163,4 +170,18 @@ let g:gitgutter_enabled = 1
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g "'"
+map <c-p><c-b> :CtrlPBuffer<CR>
+map <c-p><c-m> :CtrlPMRUFiles<CR>
+
+" delimitMate automatic CR
+let g:delimitMate_expand_cr = 1
+
+
+" ultisnip
+" to make ultisnip work with youcompleteme
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+" youcompleteme
+let g:ycm_key_list_select_completion = ['<Down>']
