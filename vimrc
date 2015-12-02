@@ -13,6 +13,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " Plugins
+Plugin 'editorconfig/editorconfig-vim'      " helps developers define and maintain consistent coding styles 
 Plugin 'altercation/vim-colors-solarized'   " colorsheme
 Plugin 'scrooloose/nerdtree'                " project drawer
 Plugin 'jistr/vim-nerdtree-tabs'            " helps nerdtree
@@ -35,8 +36,8 @@ Plugin 'Yggdroot/indentLine'                " Indentation lines vertical bars
 Plugin 'marijnh/tern_for_vim'               " Javascript linter which can attach to ycm
 Plugin 'rking/ag.vim'                       " frontend for silversearcher
 Plugin 'pangloss/vim-javascript'            " Improved JS indentation and syntax support e.g. html within js
-Plugin 'xolox/vim-session'                  " manage vim sessions
-Plugin 'elzr/vim-json'                      " highlight key value etc.
+"Plugin 'xolox/vim-session'                  " manage vim sessions
+"Plugin 'elzr/vim-json'                      " highlight key value etc.
 Plugin 'bronson/vim-trailing-whitespace'    " remove trailing whitespaces (:FixWhitespace)
 Plugin 'tpope/vim-surround'                 " quoting/parantesizing made simple
 Plugin 'SirVer/ultisnips'                   " snippet manager
@@ -44,6 +45,7 @@ Plugin 'honza/vim-snippets'                 " vim snippets
 Plugin 'matthewsimo/angular-vim-snippets'   " angular js snippets
 Plugin 'othree/javascript-libraries-syntax.vim' " javascript libraries syntax
 Plugin 'burnettk/vim-angular'               " AngularJS with vim, jump to controllers services etc.
+Plugin 'joequery/Stupid-EasyMotion'         " Easymotion replacement for raw f, w etc.
 
 call vundle#end()               " required
 filetype plugin indent on       " required
@@ -77,8 +79,9 @@ set shiftround                  " use multiple of shiftwidth when indenting with
 set showmatch                   " set show matching parenthesis
 set ignorecase                  " ignore case when searching
 set smartcase                   " ignore case if search pattern is all lowercase, case-sensitive otherwise
+set mouse=a
 set hidden                      " I will take care of my hidden buffers
-set scrolloff=2                 " always display n number of lines below and above cursor
+" set scrolloff=5                 " always display n number of lines below and above cursor
 set cursorline                  " highlight current line
 set history=1000                " remember more commands and search history
 set undolevels=1000             " use many muchos levels of undo
@@ -88,6 +91,10 @@ set backupdir=~/.vim/backup//   " backup files location (files with ~ prefix)
 set directory=~/.vim/swp//      " swapfile location. The double tailing slash will store files using full paths
 cmap w!! w !sudo tee % >/dev/null   " use w!! to use sudo to save file
 nmap <silent> <leader>/ :nohlsearch<CR>    " Tired of clearing highlighted searches by searching for “ladf”
+nmap <leader>w :w!<CR>  " Fast save
+nmap <leader>wq :wq!<CR>  " Fast save and quit
+nmap <leader>q :q<CR>  " Fast save and quit
+inoremap jj <ESC>   "Easy escaping
 
 " Refer http://www.alexeyshmalko.com/2014/using-vim-as-c-cpp-ide/
 set exrc " source .vimrc file if it present in working
@@ -95,10 +102,11 @@ set secure " since vim will source any local vimrc, must use secure to restrict 
 
 " Tabs and spaces
 " Refer http://vimcasts.org/episodes/tabs-and-spaces/
-set tabstop=4     " how many columns a tab counts for
-set shiftwidth=4  " how many columns text is indented with the reindent operations (<< and >>)
-set softtabstop=4 " how many columns vim uses when you hit Tab in insert mode
-set expandtab	  " hitting Tab in insert mode will produce the appropriate number of spaces.
+set tabstop=4       " how many columns a tab counts for
+set shiftwidth=4    " how many columns text is indented with the reindent operations (<< and >>)
+set softtabstop=4   " how many columns vim uses when you hit Tab in insert mode
+set expandtab	    " hitting Tab in insert mode will produce the appropriate number of spaces.
+set nopaste           "set paste by default
 
 " Show invisibles
 " Refer http://vimcasts.org/episodes/show-invisibles/
@@ -172,6 +180,12 @@ let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 map <c-p><c-b> :CtrlPBuffer<CR>
 map <c-p><c-m> :CtrlPMRUFiles<CR>
+" To improve ctlp's performance. It was bad but after setting up following its
+" fast
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+if executable('ag')
+      let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
 
 " delimitMate automatic CR
 let g:delimitMate_expand_cr = 1
@@ -185,3 +199,26 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " youcompleteme
 let g:ycm_key_list_select_completion = ['<Down>']
+
+" EasyMotion change binding from default <leade><leader> to <leader>
+map <leader> <Plug>(easymotion-prefix)
+
+
+" Toggle relative or absolute line number
+function! NumberToggle()
+    if(&relativenumber == 1)
+        set norelativenumber
+        set number
+    else
+        set nonumber
+        set relativenumber
+    endif
+endfunc
+
+nnoremap <C-n> :call NumberToggle()<cr>
+
+" Toggle SyntasticCheck warning
+nmap <leader>st :SyntasticToggleMode<CR>
+
+" FixWhiteSpace
+nmap <leader>fw :FixWhitespace<CR>
