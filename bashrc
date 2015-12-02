@@ -2,6 +2,9 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+#This script allows you to see repository status in your prompt.
+source ~/.git-prompt.sh
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
@@ -54,9 +57,9 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\w\[\033[00m\]$(__git_ps1) \$  '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\w$(__git_ps1) \$  '
 fi
 unset color_prompt force_color_prompt
 
@@ -106,6 +109,11 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+
+# START Personal Configuration
+
+PROMPT_DIRTRIM=2 # Show only two trailing directories on the prompt
+
 export PATH="$PATH:/home/sachin/sbin:/home/sachin/Scripts:/home/sachin/bin:/home/sachin/projects/android/android-studio/bin/:/home/sachin/projects/android/genymotion/"
 #for node.js
 export PATH="$PATH:/home/sachin/.nodes/current/bin/"
@@ -134,3 +142,19 @@ eval "$(rbenv init -)"
 
 alias ib='ionic build android'
 alias ir='ionic run android'
+alias spm='sudo pm-suspend'
+alias gst='git status'
+alias pingtest='ping 8.8.8.8'
+
+#mkdcd() { mkdir $1 && cd $1; }
+gd() { git diff $1 ; }
+
+# Swap caps and ctrl keys
+setxkbmap -option ctrl:swapcaps
+setxkbmap -option ctl:nocaps
+
+# Open VIM without reading vimrc file
+alias vil='vim -u NONE'
+
+# Open emacsclient in current tty
+alias emcl='emacsclient -t'
